@@ -3,6 +3,7 @@ package search
 import (
 	"flag"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -29,9 +30,9 @@ func init() {
 	flag.StringVar(&awsAccessKeyID, "aws_a", os.Getenv("AWS_ACCESS_KEY_ID"), "AWS access key credential")
 	flag.StringVar(&awsSecretAccessKey, "aws_s", os.Getenv("AWS_SECRET_ACCESS_KEY"), "AWS secret key credential")
 
-	//	if awsAccessKeyID != "" || awsSecretAccessKey == "" {
-	//		log.Panic("AWS credentials missing")
-	//	}
+	if awsAccessKeyID != "" || awsSecretAccessKey == "" {
+		log.Panic("AWS credentials missing")
+	}
 
 	os.Setenv("AWS_ACCESS_KEY_ID", awsAccessKeyID)
 	os.Setenv("AWS_SECRET_ACCESS_KEY", awsSecretAccessKey)
