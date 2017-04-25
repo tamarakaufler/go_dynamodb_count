@@ -1,2 +1,14 @@
 # go_dynamodb_search
-Go implementation of providing the number of db records according to search criteria 
+Simple web application for searching dynamoDB database
+
+## Provides
+
+* form to provide search criteria DynamoDB table
+* the result is the number of db records satisfying the criteria
+
+## Technologies
+
+* Golang
+* AWS-SDK library
+* UI uses Bootstrap
+
