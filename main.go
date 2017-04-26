@@ -34,8 +34,10 @@ func formHandler(w http.ResponseWriter, r *http.Request) {
 
 func displayHandler(w http.ResponseWriter, r *http.Request) {
 	data, err := search.DoDynamoDBScan(r)
+
 	if err != nil {
-		data.Error = err
+		fmt.Printf("ERROR: %v\n", err)
+		data.Error = err.Error()
 	}
 
 	t, _ := template.ParseFiles(tmplDir + "search_result.html")
@@ -47,5 +49,5 @@ func main() {
 	http.HandleFunc("/process", displayHandler)
 
 	fmt.Println("Starting server")
-	http.ListenAndServe("127.0.0.1:9090", nil)
+	http.ListenAndServe("127.0.0.1:9000", nil)
 }

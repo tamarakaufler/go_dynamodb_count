@@ -30,15 +30,15 @@
   <div style="padding: 20px;">
       <div class="container">
         <fieldset>
-            <legend>Number of found records for {{.Table}}</legend>
+            <legend>Number of found records for [{{.Table}}] table</legend>
             <div>
                 {{.Count}}
             </div>
             <div>
-                {{.Error}}
+                {{if .Error}}{{.Error}}{{end}}
             </div>
             <div>
-                <a href="http://localhost:9090/">Return to search form</a>
+                <a href="http://localhost:9000/">Return to search form</a>
             </div>
         </fieldset>
       </div>

@@ -16,35 +16,43 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 )
 
-var awsAccessKeyID, awsSecretAccessKey string
+var awsAccessKeyID, awsSecretAccessKey, endpoint string
 
 // Result is a data structure,that will be used for display on the web page
 type Result struct {
 	Table string
 	Count int64
-	Error error
+	Error string
 }
 
 // Set up the AWS credentials if required
 func init() {
 	flag.StringVar(&awsAccessKeyID, "aws_a", os.Getenv("AWS_ACCESS_KEY_ID"), "AWS access key credential")
 	flag.StringVar(&awsSecretAccessKey, "aws_s", os.Getenv("AWS_SECRET_ACCESS_KEY"), "AWS secret key credential")
+	flag.StringVar(&endpoint, "url", "http://localhost:8000", "DynamoDB endpoint")
 
-	if awsAccessKeyID != "" || awsSecretAccessKey == "" {
+	flag.Parse()
+
+	fmt.Printf("\t awsAccessKeyID=%s\nawsSecretAccessKey=%s\n", awsAccessKeyID, awsSecretAccessKey)
+	fmt.Printf("\t endpoint=%s\n", endpoint)
+
+	if awsAccessKeyID == "" || awsSecretAccessKey == "" {
 		log.Panic("AWS credentials missing")
 	}
 
 	os.Setenv("AWS_ACCESS_KEY_ID", awsAccessKeyID)
 	os.Setenv("AWS_SECRET_ACCESS_KEY", awsSecretAccessKey)
+
 }
 
 // The date input needs to satisfy the dynamoDb format
 func checkDate(date, tm string) (string, error) {
 	datetime := date + "T" + tm
-	format := "2006-01-02T15:04:05.000Z"
+	format := "2006-01-02T15:04:05"
 	_, err := time.Parse(format, datetime)
 
 	if err != nil {
+		fmt.Printf("ERROR: datetime=%s - error=%v\n\n", datetime, err)
 		return "", errors.New("Start date and time must be provided and be yyy-MM-dd and hh:mm:ss")
 	}
 
@@ -53,7 +61,6 @@ func checkDate(date, tm string) (string, error) {
 
 // Process the form data
 func getSearchTerms(r *http.Request) (string, map[string]string, error) {
-	flag.Parse()
 	r.ParseForm()
 
 	var fromDatetime, toDatetime string
@@ -101,7 +108,6 @@ func getSearchTerms(r *http.Request) (string, map[string]string, error) {
 // Set up the DynamoDB client for performing the scan
 func getDynamoDbClient() *dynamodb.DynamoDB {
 
-	endpoint := "http://localhost:8000"
 	region := "eu-west-1"
 	awsCfg := &aws.Config{
 		Endpoint: &endpoint,
@@ -115,7 +121,7 @@ func getDynamoDbClient() *dynamodb.DynamoDB {
 // Do the scanning and get the number of records satisfying the search criteria
 func getScanResult(client *dynamodb.DynamoDB, table string, attributes map[string]string) (*Result, error) {
 
-	dbTable := "nectar-service-" + table + "-production"
+	dbTable := "nectar-service-" + table
 
 	var dateField string
 
@@ -182,6 +188,7 @@ func DoDynamoDBScan(r *http.Request) (*Result, error) {
 
 	// Extract Form search parameters
 	table, attributes, err := getSearchTerms(r)
+
 	if err != nil {
 		return nil, err
 	}
