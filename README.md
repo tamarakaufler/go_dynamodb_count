@@ -10,8 +10,11 @@ Simple web application for searching dynamoDB database
 
 * Golang (1.8)
 * AWS-SDK library
+        <div>
         go get -u github.com/aws/aws-sdk-go/aws...
         go get -u github.com/aws/aws-sdk-go/service/...
+        </div>
+
 * UI uses Bootstrap
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
