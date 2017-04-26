@@ -10,9 +10,7 @@ import (
 )
 
 var (
-	tmplDir            string
-	awsAccessKeyID     string
-	awsSecretAccessKey string
+	tmplDir string
 )
 
 func init() {
