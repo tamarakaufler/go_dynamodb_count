@@ -28,9 +28,9 @@ Simple web application for searching dynamoDB database
 
 sudo apt-get install aws-cli
 
-aws dynamodb create-table --table-name loyalty-service-member --attribute-definitions AttributeName=memberID,AttributeType=N AttributeName=namespace,AttributeType=S AttributeName=date,AttributeType=S --key-schema AttributeName=memberId,KeyType=HASH AttributeName=namespace,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 
+aws dynamodb --endpoint-url http://localhost:8000 create-table --table-name loyalty-service-member --attribute-definitions AttributeName=memberID,AttributeType=N AttributeName=namespace,AttributeType=S AttributeName=date,AttributeType=S --key-schema AttributeName=memberId,KeyType=HASH AttributeName=namespace,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 
 
-aws dynamodb create-table --table-name loyalty-service-order --attribute-definitions AttributeName=orderID,AttributeType=N AttributeName=namespace,AttributeType=S AttributeName=createDate,AttributeType=S --key-schema AttributeName=orderId,KeyType=HASH AttributeName=namespace,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 
+aws dynamodb --endpoint-url http://localhost:8000 create-table --table-name loyalty-service-order --attribute-definitions AttributeName=orderID,AttributeType=N AttributeName=namespace,AttributeType=S AttributeName=createDate,AttributeType=S --key-schema AttributeName=orderId,KeyType=HASH AttributeName=namespace,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 
 
 ## Note
 
