@@ -3,7 +3,6 @@ package search
 import (
 	"flag"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -36,9 +35,11 @@ func init() {
 	fmt.Printf("\t awsAccessKeyID=%s\nawsSecretAccessKey=%s\n", awsAccessKeyID, awsSecretAccessKey)
 	fmt.Printf("\t endpoint=%s\n", endpoint)
 
-	if awsAccessKeyID == "" || awsSecretAccessKey == "" {
-		log.Panic("AWS credentials missing")
-	}
+	/*
+		if awsAccessKeyID == "" || awsSecretAccessKey == "" {
+			log.Panic("AWS credentials missing")
+		}
+	*/
 
 	os.Setenv("AWS_ACCESS_KEY_ID", awsAccessKeyID)
 	os.Setenv("AWS_SECRET_ACCESS_KEY", awsSecretAccessKey)
@@ -64,7 +65,7 @@ func getSearchTerms(r *http.Request) (string, map[string]string, error) {
 	r.ParseForm()
 
 	var fromDatetime, toDatetime string
-	var err error
+	err := errors.New("Search expression cannot be empty")
 
 	attributes := make(map[string]string)
 
