@@ -1,5 +1,5 @@
 # go_dynamodb_search
-Simple web application for searching dynamoDB database (MVP stage)
+Simple web application for searching dynamoDB database
 
 ## Provides
 
